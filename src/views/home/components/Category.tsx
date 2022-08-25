@@ -7,7 +7,7 @@ export default function Category({ onSetCategory }: { onSetCategory: (id: number
 
   const { data: categoryList, isLoading } = useGetCategoryQuery()
 
-  const [current, setCurrent] = useState<Current>({ header: '상의', cell: '전체' })
+  const [current, setCurrent] = useState<Current>({ header: 'face', cell: '전체' })
   const isCurrent = (name: string, type: string) => current[type] === name
 
   return (
@@ -15,12 +15,13 @@ export default function Category({ onSetCategory }: { onSetCategory: (id: number
       {!isLoading ? (
         <UI.Wrap>
           <UI.HeaderWrap>
-            {categoryList.map((category: any) => (
+            {categoryList.content.map((category: any) => (
               <UI.Header
                 key={category.name}
                 onClick={() => {
                   setCurrent({ header: category.name, cell: '전체' })
-                  onSetCategory(category.categoryId)
+                  onSetCategory(category.id)
+                  console.log(category.id)
                 }}
                 data-current={isCurrent(category.name, 'header')}
               >
@@ -34,12 +35,12 @@ export default function Category({ onSetCategory }: { onSetCategory: (id: number
               onClick={() => {
                 setCurrent({ ...current, cell: '전체' })
                 const curr = categoryList.find((category: any) => category.name === current.header)
-                onSetCategory(curr.categoryId)
+                onSetCategory(curr.id)
               }}
             >
               전체
             </UI.Cell>
-            {categoryList
+            {categoryList.content
               .find((category: any) => category.name === current.header)
               .children.map((ele: any) => (
                 <UI.Cell
@@ -47,7 +48,7 @@ export default function Category({ onSetCategory }: { onSetCategory: (id: number
                   key={ele.name}
                   onClick={() => {
                     setCurrent({ ...current, cell: ele.name })
-                    onSetCategory(ele.categoryId)
+                    onSetCategory(ele.id)
                   }}
                 >
                   {ele.name}

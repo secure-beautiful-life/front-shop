@@ -1,11 +1,11 @@
 export interface Product {
-  categoryId: number
-  productId: number
-  profileUrl: string
+  category_id: number
+  product_id: number
+  profile_image_url: string
   name: string
   price: number
-  brandName: string
-  wish: false
+  brand_name: string
+  wish: boolean
 }
 
 export type Product_List = Array<Product>

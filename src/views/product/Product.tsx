@@ -26,7 +26,7 @@ export default function Product() {
   const params = useParams()
   const navigate = useNavigate()
 
-  const { data: product, isLoading } = useGetProductDetailQuery({ id: Number(params.id) })
+  const { data: product, isLoading } = useGetProductDetailQuery({ product_id: Number(params.id) })
   const { data: reviewList } = useGetReviewQuery({ productId: Number(params.id) })
   const { data: userData } = useCheckIsUserQuery()
   const { data } = useGetAllFittingQuery()
@@ -82,17 +82,17 @@ export default function Product() {
       )}
       <AppHeader isBack title={sliceLetter(product?.name, 15) || ''} />
       <UI.Wrap>
-        <UI.TopImg src={product?.profileUrl} />
+        <UI.TopImg src={product?.profile_image_url} />
         {/* <UI.ShadowImg /> */}
         <UI.TitleBar>
-          <strong>{product?.brandName}</strong>
+          <strong>{product?.brand_name}</strong>
         </UI.TitleBar>
         <UI.EssentialInfo>
           <p>{product?.name}</p>
           <span>{Number(product?.price).toLocaleString()}원</span>
         </UI.EssentialInfo>
         <AppButton
-          content="👕 피팅해보기 👕"
+          content="💄 화장해보기"
           onClick={onPostFitting}
           background="white"
           color="black"
@@ -120,8 +120,8 @@ export default function Product() {
           </UI.ReviewList>
         </UI.ReviewSection>
         <UI.ImageWrap>
-          {product?.images.map((image: any) => (
-            <UI.ItemImg key={image} src={image} alt={'상품 이미지'} />
+          {product?.detail_images.map((image: any) => (
+            <UI.ItemImg key={image} src={image.image_url} alt={'상품 이미지'} />
           ))}
         </UI.ImageWrap>
       </UI.Wrap>

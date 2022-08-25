@@ -7,7 +7,7 @@ export const signupApi = apiSlice.injectEndpoints({
   endpoints: (build) => ({
     requestSignup: build.mutation<Res_Signup, Req_Signup>({
       query: (params) => ({
-        url: `/user-service/users`,
+        url: `/users`,
         method: 'POST',
         body: params,
       }),
@@ -15,14 +15,14 @@ export const signupApi = apiSlice.injectEndpoints({
 
     requestLogin: build.mutation<Res_Login, Req_Login>({
       query: (params) => ({
-        url: `/user-service/users/login`,
+        url: `/users/login`,
         method: 'POST',
         body: params,
       }),
       async onQueryStarted(arg, { dispatch, getState, queryFulfilled, requestId, extra, getCacheEntry }) {
         const result = await queryFulfilled
-        setToken('access_token', result.data.accessToken)
-        setToken('refresh_token', result.data.refreshToken)
+        setToken('access_token', result.data.access_token)
+        setToken('refresh_token', result.data.refresh_token)
       },
     }),
 

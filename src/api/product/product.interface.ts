@@ -1,9 +1,9 @@
 import { Product_List, Product_Sort } from '../../core/types/product'
 
 export interface Req_ProductList {
-  categoryId?: number
-  page: number
-  size?: number
+  category_id?: number
+  offset: number
+  limit?: number
 }
 
 export interface Res_ProductList {
@@ -49,7 +49,7 @@ export interface Res_Product {
 }
 
 export interface Req_Product {
-  id: number
+  product_id: number
 }
 
 export interface Req_Post_Product {

@@ -27,10 +27,10 @@ export default function Wish() {
             !isLoading &&
             wishList.map((product: Product) => (
               <ProductCardVertical
-                onClick={goToDetailPage(product.productId)}
-                key={product.productId}
+                onClick={goToDetailPage(product.product_id)}
+                key={product.product_id}
                 product={product}
-                categoryId={product.categoryId}
+                categoryId={product.category_id}
               />
             ))}
         </UI.ProductWrap>

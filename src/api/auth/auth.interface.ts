@@ -1,10 +1,11 @@
 export interface Req_Signup {
   username: string
   password: string
+  password_check: string
   name: string
   gender: string
   email: string
-  phoneNumber: string
+  phone: string
   address: string
 }
 export interface Res_Signup {
@@ -18,8 +19,8 @@ export interface Req_Login {
 }
 
 export interface Res_Login {
-  accessToken: string
-  refreshToken: string
+  access_token: string
+  refresh_token: string
 }
 
 export interface Res_IsUser {

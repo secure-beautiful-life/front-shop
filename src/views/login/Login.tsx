@@ -66,7 +66,7 @@ export default function Login() {
           onSetValue={setPassword}
           errorMessage={!isValidPw ? '아이디는 영어, 숫자, 특수문자로 8글자 이상, 13글자 이하입니다.' : ''}
         />
-        <AppButton content="로그인" radius="2rem" onClick={onLogin} disabled={!isAllValid} />
+        <AppButton content="로그인" radius="2rem" onClick={onLogin} disabled={false} />
         <AppLink href="/signup" content="회원가입 하러가기" />
       </UI.LoginWrap>
       {isModal && isDimmed && (

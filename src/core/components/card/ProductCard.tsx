@@ -14,7 +14,7 @@ export interface Props {
 }
 
 export function ProductCardVertical(props: Props) {
-  const { profileUrl, price, name, brandName, wish, productId } = props.product
+  const { profile_image_url, price, name, brand_name, wish, product_id } = props.product
 
   const [postLike] = usePostLikeMutation()
   const [deleteLike] = useDeleteLikeMutation()
@@ -23,7 +23,7 @@ export function ProductCardVertical(props: Props) {
 
   const onPostLike = (e: any) => {
     e.stopPropagation()
-    postLike({ productId })
+    postLike({ productId: product_id })
       .unwrap()
       .then(() => {
         setIsLike(true)
@@ -33,7 +33,7 @@ export function ProductCardVertical(props: Props) {
 
   const onDeleteLike = (e: any) => {
     e.stopPropagation()
-    deleteLike({ productId })
+    deleteLike({ productId: product_id })
       .unwrap()
       .then(() => {
         setIsLike(false)
@@ -53,9 +53,9 @@ export function ProductCardVertical(props: Props) {
             )}
           </UI.LikeBtn>
         )}
-        <img src={profileUrl} alt={name} />
+        <img src={profile_image_url} alt={name} />
       </UI.ImgWrap>
-      <strong>{brandName}</strong>
+      <strong>{brand_name}</strong>
       <p>{sliceLetter(name, 15)}</p>
       <span>{Number(price).toLocaleString()}원</span>
     </UI.VerticalWrap>

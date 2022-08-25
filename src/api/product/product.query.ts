@@ -13,21 +13,20 @@ export const productApi = apiSlice.injectEndpoints({
     // ! 카테고리 불러오기
     getCategory: build.query<any, void>({
       query: () => ({
-        url: '/product-service/categories',
+        url: '/categories',
       }),
-      transformResponse: (res: any) => res.data,
     }),
 
     // ! 카테고리에 따라 상품 불러오기
-    getProduct: build.query<I.Res_ProductList, I.Req_ProductList>({
-      query: ({ page = 0, size = 10, categoryId }) => ({
-        url: `/product-service/categories/${categoryId}?page=${page}&size=${size}`,
+    getProduct: build.query<any, I.Req_ProductList>({
+      query: ({ offset = 0, limit = 10, category_id }) => ({
+        url: `/products?category_id=${category_id}&offset=${offset}&limit=${limit}`,
       }),
       providesTags: ['product'],
     }),
 
     // ! 상품 검색해서 불러오기
-    productSearch: build.query<I.Res_ProductList, I.Req_ProductList_Search>({
+    productSearch: build.query<any, I.Req_ProductList_Search>({
       query: ({ sort = 'idAsc', name }) => ({
         url: `/product-service/products/search?sort=${sort}&name=${name}`,
       }),
@@ -43,9 +42,9 @@ export const productApi = apiSlice.injectEndpoints({
     }),
 
     // ! product detail 가져오기
-    getProductDetail: build.query<I.Res_Product, I.Req_Product>({
-      query: ({ id }) => ({
-        url: `/product-service/products/${id}`,
+    getProductDetail: build.query<any, I.Req_Product>({
+      query: ({ product_id }) => ({
+        url: `products/${product_id}`,
       }),
     }),
 

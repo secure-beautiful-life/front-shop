@@ -22,7 +22,12 @@ export default function Home() {
   const [isModal, setIsModal] = useState(false)
   const [isItem, setIsItem] = useState(true)
 
-  const { data: initialProduct, isLoading, refetch } = useGetProductQuery({ page: 0, categoryId })
+  const {
+    data: initialProduct,
+    isLoading,
+    refetch,
+  } = useGetProductQuery({ offset: 0, category_id: categoryId, limit: 10 })
+
   const [trigger, result, lastPromiseInfo] = useLazyGetProductQuery()
 
   const [productList, setProductList] = useState<any>([])
@@ -34,7 +39,7 @@ export default function Home() {
     if (!target) return
     const triggerList = async ([entries]: IntersectionObserverEntry[], observer: IntersectionObserver) => {
       if (entries.isIntersecting) {
-        trigger({ page: currPage + 1, categoryId }).then((res: any) => {
+        trigger({ offset: currPage + 1, category_id: categoryId }).then((res: any) => {
           setProductList(productList.concat(res.data.content))
           setCurrPage(currPage + 1)
           if (res.data.content.length < 10) setIsItem(false)
@@ -131,8 +136,8 @@ export default function Home() {
           {productList &&
             productList.map((product: Product, idx: any) => (
               <ProductCardVertical
-                onClick={goToDetailPage(product.productId)}
-                key={product.productId}
+                onClick={goToDetailPage(product.product_id)}
+                key={product.product_id}
                 product={product}
                 categoryId={categoryId}
                 _ref={(ref: any) => {
