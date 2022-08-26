@@ -9,8 +9,10 @@ export const Wrap = styled.div`
   padding: 5rem 0 7rem 0;
   gap: 1rem;
   overflow-y: scroll;
-  button:last-of-type {
-    margin-top: 0.5rem;
+  button {
+    /* margin-top: calc(100% - 4rem); */
+    margin-top: 1rem;
+    margin-bottom: 3rem;
   }
   p {
     padding-left: 0.5rem;

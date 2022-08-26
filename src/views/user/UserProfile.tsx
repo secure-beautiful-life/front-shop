@@ -1,25 +1,24 @@
 import styled from 'styled-components'
-import { selectUserInfo } from '../../api/auth/auth.query'
+import { useCheckIsUserQuery } from '../../api/auth/auth.query'
 import AppHeader from '../../core/components/AppHeader'
-import { useAppSelector } from '../../core/hooks/redux'
 import { getFlex } from '../../designs/util/display'
 
 export default function UserProfile() {
-  const userInfo: any = useAppSelector(selectUserInfo)
+  const { data: userInfo, isLoading, isError } = useCheckIsUserQuery()
 
   return (
     <>
       <AppHeader title="내 프로필" isBack />
       <Wrap>
-        <img src={userInfo?.profileUrl} alt="user" />
+        <img src={userInfo?.profile_image_url} alt="user" />
         <div>
           <InfoWrap>
             <strong>이름 :</strong>
-            <p>{userInfo?.phoneNumber}</p>
+            <p>{userInfo?.name}</p>
           </InfoWrap>
           <InfoWrap>
             <strong>핸드폰 번호 :</strong>
-            <p>{userInfo?.name}</p>
+            <p>{userInfo?.phone}</p>
           </InfoWrap>
           <InfoWrap>
             <strong>성별 :</strong>

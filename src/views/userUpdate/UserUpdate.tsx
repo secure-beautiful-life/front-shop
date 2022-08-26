@@ -3,7 +3,7 @@ import * as UI from './UserUpdate.styled'
 import AppHeader from '../../core/components/AppHeader'
 import AppInput from '../../core/components/AppInput'
 import AppSelectBox from '../../core/components/AppSelectBox'
-import { REG_EMAIL, REG_NAME, REG_PASSWORD, REG_PH, REG_USERNAME } from '../../core/constant/reg'
+import { REG_EMAIL, REG_NAME, REG_PASSWORD, REG_PH, REG_USERNAME, REG_ADDRESS } from '../../core/constant/reg'
 import { useInput } from '../../core/hooks/useInput'
 import { useSelect } from '../../core/hooks/useSelect'
 import AppButton from '../../core/components/AppButton'
@@ -13,7 +13,6 @@ import { useNavigate } from 'react-router-dom'
 import { FileSelectBox } from '../sellerAdmin/SellerAdmin.styled'
 import { GoPlus } from 'react-icons/go'
 import { useState } from 'react'
-import { uploadFiles } from '../../core/util/uploadFile'
 
 function HeaderIcon() {
   return (
@@ -25,37 +24,53 @@ function HeaderIcon() {
 }
 
 export default function UserUpdate() {
-  const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
   const [profileImg, setProfileImg] = useState()
 
   const profileImgHandler = (e: any) => {
-    const file = e.target.files
-    setProfileImg(file)
+    const files = e.target.files
+    if (files.length <= 0) return console.log('files does not exist')
+    const file = files[0]
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => {
+      const base64 = reader.result
+      return base64
+    }
   }
 
   const { data: userData, isLoading, isError } = useCheckIsUserQuery()
   const [updateUser] = useUpdateUserInfoMutation()
 
-  const { value: name, onSetValue: setName, isValid: isValidName } = useInput(userData?.name, REG_NAME)
-  const { value: password, onSetValue: setPassword, isValid: isValidPw } = useInput('', REG_PASSWORD)
-  const { value: gender, onSetValue: setGender, optionList: genderList } = useSelect(['WOMAN', 'MAN'])
   const { value: email, onSetValue: setEmail, isValid: isValidEmail } = useInput(userData?.email, REG_EMAIL)
-  const { value: phoneNumber, onSetValue: setPhone, isValid: isValidPh } = useInput(userData?.phoneNumber, REG_PH)
-  const { value: address, onSetValue: setAddress } = useInput(userData?.address)
+  const { value: phone, onSetValue: setPhone, isValid: isValidPh } = useInput(userData?.phone, REG_PH)
+  const { value: address, onSetValue: setAddress, isValid: isVaildAddress } = useInput(userData?.address, REG_ADDRESS)
 
-  const isAllValid = [isValidName, isValidEmail, isValidPh].every((ele) => ele === true)
+  const isAllValid = [isValidEmail, isValidPh, isVaildAddress].every((ele) => ele === true)
   const onUpdateProfile = async () => {
-    const img = await uploadFiles(profileImg)
     const values = {
-      name: name ? name : userData?.name,
-      password: password ? password : null,
-      gender: gender ? gender : userData?.gender,
       email: email ? email : userData?.email,
-      phoneNumber: phoneNumber ? phoneNumber : userData?.phoneNumber,
+      phone: phone ? phone : userData?.phone,
       address: address ? address : userData?.address,
-      profileUrl: img ? img[0] : null,
+    }
+
+    updateUser(values)
+      .unwrap()
+      .then((res: any) => {
+        window.alert('프로필을 수정했습니다.')
+        navigate('/user')
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const onUpdateImg = async () => {
+    const values = {
+      email: email ? email : userData?.email,
+      phone: phone ? phone : userData?.phone,
+      address: address ? address : userData?.address,
     }
 
     updateUser(values)
@@ -71,24 +86,8 @@ export default function UserUpdate() {
 
   return (
     <>
-      <AppHeader isBack title="유저 정보 수정" />
+      <AppHeader isBack title="기본 정보 수정" />
       <UI.Wrap>
-        <AppInput
-          type="text"
-          label="이름 변경"
-          placeHolder={String(userData?.name)}
-          value={name}
-          onSetValue={setName}
-          errorMessage={!isValidName ? '성함을 입력해주세요.' : ''}
-        />
-        <AppInput
-          type="password"
-          label="비밀번호 변경"
-          placeHolder="비밀번호가 빈 값이면 이전 비밀번호가 그대로 유지됩니다."
-          value={password}
-          onSetValue={setPassword}
-          errorMessage={!isValidPw ? '아이디는 영어, 숫자, 특수문자로 8글자 이상, 13글자 이하입니다.' : ''}
-        />
         <AppInput
           type="text"
           label="이메일 변경"
@@ -97,14 +96,13 @@ export default function UserUpdate() {
           onSetValue={setEmail}
           errorMessage={!isValidEmail ? '이메일 형식으로 입력해주세요.' : ''}
         />
-        <AppSelectBox label="성별" optionList={genderList} onSetValue={setGender} />
         <AppInput
           type="text"
           label="핸드폰 번호 변경"
-          placeHolder={String(userData?.phoneNumber)}
-          value={phoneNumber}
+          placeHolder={String(userData?.phone)}
+          value={phone}
           onSetValue={setPhone}
-          errorMessage={!isValidPh ? '번호 형식으로 입력해주세요.' : ''}
+          errorMessage={!isValidPh ? ' - 없이 11자리 입력해주세요.' : ''}
         />
         <AppInput
           type="text"
@@ -112,20 +110,16 @@ export default function UserUpdate() {
           placeHolder={String(userData?.address)}
           value={address}
           onSetValue={setAddress}
+          errorMessage={!isVaildAddress ? '지역은 10자 이상 30자 이하로 작성해주세요.' : ''}
         />
-        <p>피팅때 사용할 정면 이미지</p>
+        <AppButton disabled={!isAllValid} content="변경 정보 저장하기" onClick={onUpdateProfile} radius="0.3rem" />
         <FileSelectBox>
           <input type="file" id="imageUrl" onChange={profileImgHandler} />
           <label htmlFor="imageUrl">
             <GoPlus />
           </label>
         </FileSelectBox>
-        <AppButton
-          disabled={!isAllValid || address === ''}
-          content="변경 정보 저장하기"
-          onClick={onUpdateProfile}
-          radius="0.3rem"
-        />
+        <AppButton content="프로필 이미지 저장하기" onClick={() => {}} radius="0.3rem" />
       </UI.Wrap>
     </>
   )

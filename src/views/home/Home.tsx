@@ -17,7 +17,7 @@ import ProductLoading from '../../core/components/ProductLoading'
 
 export default function Home() {
   const [currPage, setCurrPage] = useState(0)
-  const [categoryId, setCategoryId] = useState(1)
+  const [categoryId, setCategoryId] = useState(4)
   const [isMenu, setIsMenu] = useState(false)
   const [isModal, setIsModal] = useState(false)
   const [isItem, setIsItem] = useState(true)

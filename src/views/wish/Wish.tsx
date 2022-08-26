@@ -15,6 +15,8 @@ export default function Wish() {
   const navigate = useNavigate()
   const goToDetailPage = (id: number) => () => startTransition(() => navigate(`/product/detail/${id}`))
 
+  console.log(wishList)
+
   return (
     <>
       <AppHeader title="좋아요 누른 상품" isBack />

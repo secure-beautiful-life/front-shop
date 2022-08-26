@@ -60,7 +60,7 @@ export const productApi = apiSlice.injectEndpoints({
 
     postLike: build.mutation<any, I.Req_Post_Wish>({
       query: (params) => ({
-        url: `/product-service/wishs`,
+        url: `/wishes`,
         method: 'POST',
         body: params,
       }),
@@ -69,7 +69,7 @@ export const productApi = apiSlice.injectEndpoints({
 
     deleteLike: build.mutation<any, I.Req_Post_Wish>({
       query: (params) => ({
-        url: `/product-service/wishs`,
+        url: `/wishes`,
         method: 'DELETE',
         body: params,
       }),
@@ -78,7 +78,7 @@ export const productApi = apiSlice.injectEndpoints({
 
     getLikeList: build.query<any, void>({
       query: () => ({
-        url: '/product-service/wishs',
+        url: '/wishes',
       }),
       transformResponse: (res: any) => res.content,
       providesTags: ['like'],
@@ -101,4 +101,5 @@ export const {
   useDeleteLikeMutation,
   useGetLikeListQuery,
   usePostProductMutation,
+  useLazyGetProductDetailQuery,
 } = productApi

@@ -6,9 +6,13 @@ export const Wrap = styled.div`
   ${getFlex({ dir: 'column', js: 'center', ai: 'center' })}
   width: 100%;
   height: 100vh;
-  padding: 1rem 0 8rem 0;
+  padding: 5rem 0 8rem 0;
   overflow-y: scroll;
   ${hideScrollBar()}
+
+  h1 {
+    font-size: 1.4rem;
+  }
 
   + div {
     transform: translateY(-30rem);

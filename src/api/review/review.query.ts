@@ -4,8 +4,8 @@ import { apiSlice } from '../../App.apiSlice'
 export const reviewApi = apiSlice.injectEndpoints({
   endpoints: (build) => ({
     getReview: build.query<I.Res_Review, I.Req_Review>({
-      query: ({ productId }) => ({
-        url: `/review-service/reviews?productId=${productId}`,
+      query: ({ offset = 0, limit = 10, product_id }) => ({
+        url: `/reviews?product_id=${product_id}&offset=${offset}&limit=${limit}`,
       }),
       providesTags: ['review'],
     }),

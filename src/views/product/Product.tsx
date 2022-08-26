@@ -27,7 +27,7 @@ export default function Product() {
   const navigate = useNavigate()
 
   const { data: product, isLoading } = useGetProductDetailQuery({ product_id: Number(params.id) })
-  const { data: reviewList } = useGetReviewQuery({ productId: Number(params.id) })
+  const { data: reviewList } = useGetReviewQuery({ product_id: Number(params.id), offset: 0, limit: 10 })
   const { data: userData } = useCheckIsUserQuery()
   const { data } = useGetAllFittingQuery()
 
@@ -37,10 +37,10 @@ export default function Product() {
     const fittingParams: any = {
       desc: 'test',
       productId: Number(params.id),
-      clothUrl: product?.profileUrl,
-      profileUrl: userData?.profileUrl,
+      clothUrl: product?.profile_image_url,
+      profile_image_url: userData?.profile_image_url,
     }
-    if (!fittingParams.profileUrl) {
+    if (!fittingParams.profile_image_url) {
       setModalProps({ content: '로그인을 해주세요', btn: '로그인 하러가기', trigger: () => navigate('/login') })
       setIsModal(true)
       return

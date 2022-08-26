@@ -1,5 +1,7 @@
 export interface Req_Review {
-  productId: number
+  product_id: number
+  limit: number
+  offset: number
 }
 
 export interface Res_Review {

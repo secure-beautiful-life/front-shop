@@ -1,4 +1,4 @@
-import { Req_IsUser, Req_Login, Req_Signup, Res_IsUser, Res_Login, Res_Signup } from './auth.interface'
+import { Req_IsUser, Req_Login, Req_Signup, Req_UserImg, Res_IsUser, Res_Login, Res_Signup } from './auth.interface'
 import { setToken } from '../../core/util/user'
 import { RootState } from '../../App.store'
 import { apiSlice } from '../../App.apiSlice'
@@ -28,16 +28,33 @@ export const signupApi = apiSlice.injectEndpoints({
 
     checkIsUser: build.query<Res_IsUser, void>({
       query: () => ({
-        url: `/user-service/users/me`,
+        url: `/users/me`,
       }),
       providesTags: ['user'],
     }),
 
     updateUserInfo: build.mutation<Res_IsUser, Req_IsUser>({
       query: (params) => ({
-        url: `/user-service/users`,
+        url: `/users/info/me`,
         method: 'PUT',
         body: params,
+      }),
+      invalidatesTags: ['user'],
+    }),
+
+    updateUserImg: build.mutation<any, Req_UserImg>({
+      query: (params) => ({
+        url: `/users/profile/me`,
+        method: 'POST',
+        body: params,
+      }),
+      invalidatesTags: ['user'],
+    }),
+
+    deleteUserImg: build.mutation<any, void>({
+      query: () => ({
+        url: `/users/profile/me`,
+        method: 'DELETE',
       }),
       invalidatesTags: ['user'],
     }),

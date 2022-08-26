@@ -5,13 +5,13 @@ import { getColor } from '../../../designs/util/atom'
 import { Link, useNavigate } from 'react-router-dom'
 
 interface User {
-  profileUrl: string
+  profile_image_url: string
   userId: string
   name: string
   role: string
   gender: string
   email: string
-  phoneNumber: string
+  phone: string
   address: string
 }
 
@@ -56,7 +56,7 @@ export function AfterUserTitle({ user }: Props) {
       {user.role === '일반' && (
         <UserTypeCard>
           <div>
-            <img src={user.profileUrl}></img>
+            <img src={user.profile_image_url}></img>
             <strong>VIP</strong>
           </div>
           <Link to="/">

@@ -4,7 +4,7 @@ export interface Req_Signup {
   name: string // 2자 이상 6자 이하 + 특수문자 불가
   gender: string
   email: string // 이메일 정규식 (20자 이하)
-  phoneNumber: string // 핸드폰 정규식 ( 12자 이하 )
+  phone: string // 핸드폰 정규식 ( 12자 이하 )
   address: string // ~도 ~시 ~구 ~동 ~~
 }
 export interface Res_Signup {

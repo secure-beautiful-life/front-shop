@@ -1,7 +1,7 @@
 export interface Req_PostFitting {
   productId: number
   clothUrl: string
-  profileUrl: string
+  profile_image_url: string
   desc: string
 }
 

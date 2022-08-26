@@ -35,16 +35,17 @@ export default function AppNav() {
 
   const productList: any = useAppSelector(selectCartList)
   const userInfo: any = useAppSelector(selectUserInfo)
+  console.log(productList)
 
   const onOrder = () => {
-    const config = {
-      data: productList.products,
-      address: userInfo.address,
-    }
-    orderCartList(config).then(() => {
-      window.alert('상품 주문이 완료되었습니다.')
-      navigate('/')
-    })
+    // const config = {
+    //   data: productList.products,
+    //   address: userInfo.address,
+    // }
+    // orderCartList(config).then(() => {
+    //   window.alert('상품 주문이 완료되었습니다.')
+    //   navigate('/')
+    // })
   }
 
   return (

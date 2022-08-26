@@ -1,5 +1,7 @@
+import { useEffect, useState } from 'react'
 import { CartProductList } from '../../api/cart/cart.interface'
 import { useGetCartListQuery, useUpdateCartListMutation } from '../../api/cart/cart.query'
+import { useLazyGetProductDetailQuery } from '../../api/product/product.query'
 import AppHeader from '../../core/components/AppHeader'
 import ProductEmpty from '../../core/components/empty/ProductEmpty'
 import NoLogin from '../../core/components/NoLogin'
@@ -15,24 +17,24 @@ export default function Cart() {
     <>
       <AppHeader title="장바구니" isBack />
       {isLoading && <Loading />}
-      {!isError && !isLoading && data && data?.products.length > 0 && (
+      {/* {!isError && !isLoading && data && productList.length > 0 && (
         <UI.Wrap empty={isLoading}>
-          {data?.products.map((product: CartProductList) => (
+          {productList.map((product: CartProductList) => (
             <ProductCard
               key={product.cartDetailId}
               initCnt={product.count}
               price={product.price}
-              brandName={product.brandName}
+              brandName={product.brand_name}
               productName={product.name}
-              imgUrl={product.profileUrl}
+              imgUrl={product.profile_image_url}
               productId={product.productId}
-              cartDetailId={product.cartDetailId}
+              cart_id={product.cartDetailId}
               refetchList={refetch}
             />
           ))}
         </UI.Wrap>
-      )}
-      {!isError && !isLoading && data && data?.products.length === 0 && (
+      )} */}
+      {!isError && !isLoading && data && data?.content.length === 0 && (
         <UI.EmptyWrap>
           <ProductEmpty />
         </UI.EmptyWrap>

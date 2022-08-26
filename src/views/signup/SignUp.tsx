@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Player } from '@lottiefiles/react-lottie-player'
 import { useNavigate } from 'react-router-dom'
-import animationData from '../../designs/assets/lottieSignup.json'
 import * as UI from './Signup.styled'
 import AppButton from '../../core/components/AppButton'
 import AppInput from '../../core/components/AppInput'
@@ -9,9 +7,8 @@ import AppSelectBox from '../../core/components/AppSelectBox'
 import { useInput } from '../../core/hooks/useInput'
 import { useRequestSignupMutation } from '../../api/auth/auth.query'
 import { useSelect } from '../../core/hooks/useSelect'
-import { REG_EMAIL, REG_NAME, REG_PASSWORD, REG_PH, REG_USERNAME } from '../../core/constant/reg'
+import { REG_BRAND, REG_EMAIL, REG_NAME, REG_PASSWORD, REG_USERNAME } from '../../core/constant/reg'
 import AppLink from '../../core/components/AppLink'
-import { PROFILE_URL_DEFAULT } from '../../core/constant'
 import { cleanupState, setIsDimmed } from '../../App.slice'
 import AppModal from '../../core/components/modal/AppModal'
 import { useAppDispatch } from '../../core/hooks/redux'
@@ -25,27 +22,50 @@ export default function SignUp() {
 
   const { value: username, onSetValue: setUserName, isValid: isValidUserName } = useInput('', REG_USERNAME)
   const { value: password, onSetValue: setPassword, isValid: isValidPw } = useInput('', REG_PASSWORD)
+  const { value: passwordCheck, onSetValue: setPasswordCheck, isValid: isValidPWCheck } = useInput('', REG_PASSWORD)
+  const { value: type, onSetValue: setType, optionList: typeList } = useSelect(['customer', 'brand'])
+  const { value: brandName, onSetValue: setBrandName, isValid: isVaildBrand } = useInput('', REG_BRAND)
   const { value: name, onSetValue: setName, isValid: isValidName } = useInput('', REG_NAME)
-  const { value: gender, onSetValue: setGender, optionList: genderList } = useSelect(['WOMAN', 'MAN'])
-  const { value: role, onSetValue: setRole, optionList: roleList } = useSelect(['USER', 'BRAND'])
+  const { value: gender, onSetValue: setGender, optionList: genderList } = useSelect(['여성', '남성'])
   const { value: email, onSetValue: setEmail, isValid: isValidEmail } = useInput('', REG_EMAIL)
-  const { value: phoneNumber, onSetValue: setPhone, isValid: isValidPh } = useInput('', REG_PH)
+  const { value: phone, onSetValue: setPhone } = useInput(0)
   const { value: address, onSetValue: setAddress } = useInput('')
 
-  const isAllValid = [isValidUserName, isValidPw, isValidName, isValidEmail, isValidPh].every((ele) => ele === true)
+  const isAllValid = [isValidUserName, isValidPw, isValidPWCheck, isValidName, isValidEmail].every(
+    (ele) => ele === true
+  )
 
   const onSignUp = async () => {
-    const values = {
-      username,
-      password,
-      name,
-      gender,
-      email,
-      phoneNumber,
-      address,
-      role,
-      profileUrl: PROFILE_URL_DEFAULT,
+    let values
+    if (type === 'customer') {
+      values = {
+        username,
+        password,
+        password_check: passwordCheck,
+        role_id: 3,
+        name,
+        type,
+        gender,
+        email,
+        phone,
+        address,
+      }
+    } else {
+      values = {
+        username,
+        password,
+        password_check: passwordCheck,
+        role_id: 3,
+        name,
+        type,
+        gender,
+        email,
+        phone,
+        address,
+        brand_name: brandName,
+      }
     }
+
     signUp(values)
       .unwrap()
       .then(() => {
@@ -66,7 +86,7 @@ export default function SignUp() {
 
   return (
     <UI.Wrap>
-      <Player autoplay loop src={animationData} style={{ height: '200px', width: '200px' }} />
+      <h1>회원가입</h1>
       <UI.FormWrap>
         <AppInput
           type="text"
@@ -82,17 +102,35 @@ export default function SignUp() {
           placeHolder="영어, 숫자, 특수문자 8 ~ 13 글자"
           value={password}
           onSetValue={setPassword}
-          errorMessage={!isValidPw ? '아이디는 영어, 숫자, 특수문자로 8글자 이상, 13글자 이하입니다.' : ''}
+          errorMessage={!isValidPw ? '아이디는 영어 대소문자, 숫자, 특수문자로 8글자 이상, 13글자 이하입니다.' : ''}
+        />
+        <AppInput
+          type="password"
+          label="비밀번호 확인"
+          placeHolder="영어, 숫자, 특수문자 8 ~ 13 글자"
+          value={passwordCheck}
+          onSetValue={setPasswordCheck}
+          errorMessage={!isValidPw ? '아이디는 영어 대소문자, 숫자, 특수문자로 8글자 이상, 13글자 이하입니다.' : ''}
         />
         <UI.selectWrap>
-          <AppSelectBox label="회원 타입" optionList={roleList} onSetValue={setRole} />
+          <AppSelectBox label="회원 타입" optionList={typeList} onSetValue={setType} />
+          {type === 'brand' && (
+            <AppInput
+              type="text"
+              label={'브랜드 이름'}
+              placeHolder="brand.."
+              value={brandName}
+              onSetValue={setBrandName}
+              errorMessage={!isVaildBrand ? '브랜드 이름은 2자 이상 10자 이하여야 합니다.' : ''}
+            />
+          )}
           <AppInput
             type="text"
-            label={role === 'USER' ? '성함' : '브랜드 이름'}
-            placeHolder=""
+            label={'이름'}
+            placeHolder="이름"
             value={name}
             onSetValue={setName}
-            errorMessage={!isValidName ? '성함을 입력해주세요.' : ''}
+            errorMessage={!isValidName ? '이름은 한글로 2자 이상 5자 이하여야 합니다.' : ''}
           />
         </UI.selectWrap>
         <AppSelectBox label="성별" optionList={genderList} onSetValue={setGender} />
@@ -104,14 +142,7 @@ export default function SignUp() {
           onSetValue={setEmail}
           errorMessage={!isValidEmail ? '이메일 형식으로 입력해주세요.' : ''}
         />
-        <AppInput
-          type="text"
-          label="핸드폰 번호"
-          placeHolder="010-1234-5678"
-          value={phoneNumber}
-          onSetValue={setPhone}
-          errorMessage={!isValidPh ? '번호 형식으로 입력해주세요.' : ''}
-        />
+        <AppInput type="text" label="핸드폰 번호" placeHolder="010-1234-5678" value={phone} onSetValue={setPhone} />
         <AppInput type="text" label="지역" placeHolder="address" value={address} onSetValue={setAddress} />
         <AppButton content="회원가입" radius="2rem" onClick={onSignUp} disabled={!isAllValid || address === ''} />
       </UI.FormWrap>

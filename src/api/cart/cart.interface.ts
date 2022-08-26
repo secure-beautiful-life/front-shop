@@ -1,13 +1,13 @@
 export interface Res_AddCart {}
 
 export interface Req_AddCart {
-  productId: number
-  count: number
+  product_id: number
+  amount: number
 }
 
 export interface CartProductList {
   cartDetailId: number
-  profileUrl: string
+  profile_image_url: string
   name: string
   price: number
   count: number
@@ -22,9 +22,9 @@ export interface Res_CartList {
 }
 
 export interface Req_UpdateCartList {
-  cartDetailId: number
+  cart_id: number
   body: {
-    productId: number
-    count: number
+    product_id: number
+    amount: number
   }
 }

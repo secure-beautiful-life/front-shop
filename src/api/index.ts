@@ -11,7 +11,7 @@ export const defaultBaseQuery = () =>
     },
     prepareHeaders: (headers, { endpoint }) => {
       if (endpoint === 'requestSignup' || endpoint === 'requestLogin') return headers
-      headers.set('Authorization', `Bearer ${getToken('access_token')}`)
+      if (getToken('access_token')) headers.set('Authorization', `Bearer ${getToken('access_token')}`)
 
       return headers
     },

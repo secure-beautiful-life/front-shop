@@ -41,7 +41,7 @@ export default function SellerAdmin() {
       name,
       price: Number(price),
       stockQuantity,
-      profileUrl: String(mainImgLocation[0]),
+      profile_image_url: String(mainImgLocation[0]),
       images,
     }
     postProduct(params)

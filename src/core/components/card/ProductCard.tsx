@@ -23,7 +23,7 @@ export function ProductCardVertical(props: Props) {
 
   const onPostLike = (e: any) => {
     e.stopPropagation()
-    postLike({ productId: product_id })
+    postLike({ product_id })
       .unwrap()
       .then(() => {
         setIsLike(true)
@@ -33,7 +33,7 @@ export function ProductCardVertical(props: Props) {
 
   const onDeleteLike = (e: any) => {
     e.stopPropagation()
-    deleteLike({ productId: product_id })
+    deleteLike({ product_id })
       .unwrap()
       .then(() => {
         setIsLike(false)

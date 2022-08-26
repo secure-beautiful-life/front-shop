@@ -23,7 +23,7 @@ export default function Order() {
                 </UI.BrandTitle>
                 <UI.Hr />
                 <UI.BrandItem>
-                  <img src={product.profileUrl} alt={product.name} />
+                  <img src={product.profile_image_url} alt={product.name} />
                   <div>
                     <strong>{product.name}</strong>
                     <span>{product.count}개</span>
@@ -37,7 +37,7 @@ export default function Order() {
         <UI.PayInfo>
           <UI.UserInfo>
             <strong>{userData?.name}</strong>
-            <p>{userData?.phoneNumber}</p>
+            <p>{userData?.phone}</p>
             <p>{userData?.address}</p>
           </UI.UserInfo>
           <div>

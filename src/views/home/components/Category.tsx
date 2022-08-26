@@ -7,7 +7,7 @@ export default function Category({ onSetCategory }: { onSetCategory: (id: number
 
   const { data: categoryList, isLoading } = useGetCategoryQuery()
 
-  const [current, setCurrent] = useState<Current>({ header: 'face', cell: '전체' })
+  const [current, setCurrent] = useState<Current>({ header: 'face', cell: '파운데이션' })
   const isCurrent = (name: string, type: string) => current[type] === name
 
   return (
@@ -19,9 +19,8 @@ export default function Category({ onSetCategory }: { onSetCategory: (id: number
               <UI.Header
                 key={category.name}
                 onClick={() => {
-                  setCurrent({ header: category.name, cell: '전체' })
-                  onSetCategory(category.id)
-                  console.log(category.id)
+                  setCurrent({ header: category.name, cell: category.children[0].name })
+                  onSetCategory(category.children[0].name.id)
                 }}
                 data-current={isCurrent(category.name, 'header')}
               >
@@ -30,16 +29,6 @@ export default function Category({ onSetCategory }: { onSetCategory: (id: number
             ))}
           </UI.HeaderWrap>
           <UI.CellWrap>
-            <UI.Cell
-              data-current={isCurrent('전체', 'cell')}
-              onClick={() => {
-                setCurrent({ ...current, cell: '전체' })
-                const curr = categoryList.find((category: any) => category.name === current.header)
-                onSetCategory(curr.id)
-              }}
-            >
-              전체
-            </UI.Cell>
             {categoryList.content
               .find((category: any) => category.name === current.header)
               .children.map((ele: any) => (

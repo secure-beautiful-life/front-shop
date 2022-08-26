@@ -1,18 +1,19 @@
 export interface Req_PostOrder {
-  data: Array<{ productId: number; count: number }>
+  products: [
+    {
+      id: number
+      amount: number
+    }
+  ]
   address: string
 }
 
 export interface Order_Product {
   totalPrice: number
   orderProducts: Array<{
-    profileUrl: string
+    profile_image_url: string
     productName: string
     price: number
     count: number
   }>
-}
-
-export interface Res_Order {
-  data: Array<{ data: Array<Order_Product>; status: string; orderDate: string; address: string }>
 }

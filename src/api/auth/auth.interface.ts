@@ -2,10 +2,13 @@ export interface Req_Signup {
   username: string
   password: string
   password_check: string
+  role_id: number
   name: string
+  type: string
+  brand_name?: string
   gender: string
   email: string
-  phone: string
+  phone: number
   address: string
 }
 export interface Res_Signup {
@@ -24,14 +27,14 @@ export interface Res_Login {
 }
 
 export interface Res_IsUser {
-  profileUrl: string
+  profile_image_url: string
   password: string
   userId: string
   name: string
   role: string
   gender: string
   email: string
-  phoneNumber: string
+  phone: string
   address: string
 }
 
@@ -41,6 +44,11 @@ export interface Req_IsUser {
   name?: string
   gender?: string
   email?: string
-  phoneNumber?: string
+  phone?: string
   address?: string
+}
+
+export interface Req_UserImg {
+  image_string: string
+  file_name: string
 }

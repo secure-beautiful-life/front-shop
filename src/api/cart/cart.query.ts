@@ -4,16 +4,16 @@ import * as I from './cart.interface'
 
 export const cartApi = apiSlice.injectEndpoints({
   endpoints: (build) => ({
-    getCartList: build.query<I.Res_CartList, void>({
+    getCartList: build.query<any, void>({
       query: () => ({
-        url: `/cart-service/carts`,
+        url: `/carts/me`,
       }),
       providesTags: ['cart'],
     }),
 
     postAddCart: build.mutation<any, I.Req_AddCart>({
       query: (params) => ({
-        url: `/cart-service/carts/detail`,
+        url: `/carts/me`,
         method: 'POST',
         body: params,
       }),
@@ -22,16 +22,16 @@ export const cartApi = apiSlice.injectEndpoints({
 
     updateCartList: build.mutation<any, I.Req_UpdateCartList>({
       query: (params) => ({
-        url: `/cart-service/carts/detail/${params.cartDetailId}`,
+        url: `/cart-service/carts/detail/${params.cart_id}`,
         method: 'PUT',
         body: params.body,
       }),
       invalidatesTags: ['cart'],
     }),
 
-    deleteCartList: build.mutation<any, { cartDetailId: number }>({
+    deleteCartList: build.mutation<any, { cart_id: number }>({
       query: (params) => ({
-        url: `/cart-service/carts/detail/${params.cartDetailId}`,
+        url: `/carts/me/${params.cart_id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['cart'],

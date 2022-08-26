@@ -10,9 +10,9 @@ export interface ProductCardProps {
   productName: string
   price: number
   initCnt: number
-  imgUrl: string
-  productId: number
-  cartDetailId: number
+  profile_image_url: string
+  product_id: number
+  cart_id: number
   refetchList: () => void
 }
 
@@ -21,9 +21,9 @@ export default function ProductCard({
   productName,
   price,
   initCnt,
-  imgUrl,
-  productId,
-  cartDetailId,
+  profile_image_url,
+  product_id,
+  cart_id,
   refetchList,
 }: ProductCardProps) {
   const { cnt, setCnt } = useCounter(initCnt)
@@ -33,10 +33,10 @@ export default function ProductCard({
 
   const onUpdateCart = (value: number) => () => {
     const config: Req_UpdateCartList = {
-      cartDetailId,
+      cart_id,
       body: {
-        productId,
-        count: cnt + value,
+        product_id,
+        amount: cnt + value,
       },
     }
     updateCart(config)
@@ -46,10 +46,10 @@ export default function ProductCard({
   }
 
   const onDeleteCart = () => {
-    deleteCart({ cartDetailId })
-      .unwrap()
-      .then(() => refetchList())
-      .catch(() => {})
+    // deleteCart({ cart_id: cartDetailId })
+    //   .unwrap()
+    //   .then(() => refetchList())
+    //   .catch(() => {})
   }
 
   return (
@@ -65,7 +65,7 @@ export default function ProductCard({
           <label htmlFor={'item1'}>
             <IoCheckmarkSharp size={'1rem'} />
           </label> */}
-          <img src={imgUrl} alt={productName} />
+          <img src={profile_image_url} alt={productName} />
           <strong>{productName}</strong>
           <IoClose size={'1.2rem'} fill={'#949494'} onClick={onDeleteCart} />
         </UI.BrandItem>

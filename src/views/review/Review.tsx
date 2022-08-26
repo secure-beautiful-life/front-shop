@@ -9,7 +9,7 @@ import * as UI from './Review.styled'
 
 export default function Review() {
   const params = useParams()
-  const { data: reviewList } = useGetReviewQuery({ productId: Number(params.id) })
+  const { data: reviewList } = useGetReviewQuery({ product_id: Number(params.id), offset: 0, limit: 10 })
   const { data: userData } = useCheckIsUserQuery()
 
   return (

@@ -39,7 +39,7 @@ export interface Req_ProductList_Search {
 }
 
 export interface Res_Product {
-  profileUrl: string
+  profile_image_url: string
   name: string
   brandName: string
   price: number
@@ -57,7 +57,7 @@ export interface Req_Post_Product {
   name: string
   price: number
   stockQuantity: number
-  profileUrl: string
+  profile_image_url: string
   images: Array<string>
 }
 
@@ -66,5 +66,5 @@ export interface Res_Post_Product {
 }
 
 export interface Req_Post_Wish {
-  productId: number
+  product_id: number
 }

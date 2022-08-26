@@ -19,17 +19,19 @@ export default function CartModal({ trigger }: { trigger: any }) {
 
   const productId = window.location.pathname.slice(window.location.pathname.lastIndexOf('/') + 1)
   const productApi = useAppSelector(selectProduct)
-  const product: any = productApi[`getProductDetail({"id":${productId}})`]?.data
+  const product: any = productApi[`getProductDetail({"product_id":${productId}})`]?.data
 
   const { cnt, setCnt } = useCounter(1)
   const { isModal, setIsModal } = useModal()
 
   const [addCart, { isLoading, error }] = usePostAddCartMutation()
 
+  console.log(product)
+
   const onAddCart = () => {
     const values = {
-      productId: Number(productId),
-      count: cnt,
+      product_id: Number(productId),
+      amount: cnt,
     }
     addCart(values)
       .unwrap()

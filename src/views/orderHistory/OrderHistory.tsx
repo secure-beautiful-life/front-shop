@@ -13,13 +13,15 @@ import * as UI from './OrderHistory.styled'
 export default function OrderHistory() {
   const { data, isLoading, isError } = useGetOrderCartQuery()
 
+  console.log(data)
+
   const dispatch = useAppDispatch()
 
   const navigate = useNavigate()
   const goToDetailPage = (product: any) => () => {
     const itemInfo = {
       productId: product.productId,
-      img: product.profileUrl,
+      img: product.profile_image_url,
       name: product.productName,
     }
     dispatch(setReviewInfo(itemInfo))
@@ -31,15 +33,15 @@ export default function OrderHistory() {
       <AppHeader title="주문 내역" isBack></AppHeader>
       <UI.Wrap>
         {isLoading && <Loading />}
-        {!isError && !isLoading && data && data?.data.length < 1 && <ProductEmpty />}
+        {!isError && !isLoading && data && data.total_length < 1 && <ProductEmpty />}
         {!isError &&
           !isLoading &&
-          data?.data.map((order: any) => (
+          data?.content.map((order: any) => (
             <UI.HistoryWrap>
               <strong>{order.orderDate.slice(0, 10)}</strong>
               {order.orderProducts.map((product: any) => (
                 <UI.Product>
-                  <img src={product.profileUrl} alt={product.productName} />
+                  <img src={product.profile_image_url} alt={product.productName} />
                   <div>
                     <p>{sliceLetter(product.productName, 20)}</p>
                     <div>
